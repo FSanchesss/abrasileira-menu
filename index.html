@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Brasileira · Braga — Menu</title>
+<link rel="icon" href="https://menu.abrasileirabraga.pt/wp-content/uploads/2022/02/cropped-ABrasileira_FAV_branco-270x270.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0908;
+  --panel:#121009;
+  --card:#15130c;
+  --line:#2b271d;
+  --cream:#ece3d2;
+  --cream-dim:#cfc5b0;
+  --muted:#8d8672;
+  --accent:#c9b586;
+  --radius:18px;
+  --serif:'Forum',serif;
+  --sans:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;background:none;border:none;color:inherit;cursor:pointer}
+
+/* ---------- ornament ---------- */
+.orn{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--muted)}
+.orn::before,.orn::after{content:"";height:1px;width:56px;background:linear-gradient(90deg,transparent,var(--muted));display:block}
+.orn::after{background:linear-gradient(90deg,var(--muted),transparent)}
+.orn .d{width:6px;height:6px;border:1px solid var(--muted);transform:rotate(45deg);flex:none}
+.orn h2,.orn span{font-family:var(--serif);letter-spacing:.35em;text-transform:uppercase;font-weight:400;color:var(--cream);white-space:nowrap}
+
+/* ---------- top nav ---------- */
+.nav{position:fixed;top:18px;left:18px;z-index:60;display:flex;align-items:center;gap:4px;
+  background:rgba(10,9,8,.82);backdrop-filter:blur(14px);border:1px solid var(--line);
+  border-radius:14px;padding:8px 14px 8px 8px}
+.nav .burger{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:.3s}
+.nav .burger span{display:block;width:16px;height:1.5px;background:var(--cream);transition:.3s}
+.nav .burger:hover{border-color:var(--accent)}
+.nav .logo img{height:30px;width:auto;margin:0 10px}
+.nav .links{display:flex;gap:4px}
+.nav .links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:10px 12px;border-radius:9px;color:var(--cream-dim);transition:.25s}
+.nav .links a:hover,.nav .links a.on{color:var(--cream);background:rgba(236,227,210,.06)}
+
+.langbar{position:fixed;top:18px;right:18px;z-index:60;display:flex;gap:2px;
+  background:rgba(10,9,8,.82);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:14px;padding:6px}
+.langbar button{font-size:10.5px;letter-spacing:.12em;padding:8px 10px;border-radius:9px;color:var(--muted);transition:.25s}
+.langbar button.on{color:var(--bg);background:var(--cream)}
+.langbar button:not(.on):hover{color:var(--cream)}
+
+/* ---------- overlay menu ---------- */
+.overlay{position:fixed;inset:0;z-index:100;background:#0a0908;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
+.overlay.open{opacity:1;visibility:visible}
+.overlay .close{position:absolute;top:26px;left:26px;width:44px;height:44px;border:1px solid var(--line);border-radius:12px;font-size:18px;color:var(--cream);transition:.3s}
+.overlay .close:hover{border-color:var(--accent);transform:rotate(90deg)}
+.overlay nav{display:flex;flex-direction:column;align-items:center;gap:6px}
+.overlay nav a{font-family:var(--serif);font-size:clamp(34px,6vw,58px);letter-spacing:.08em;text-transform:uppercase;color:var(--cream);
+  opacity:0;transform:translateY(24px);transition:color .3s}
+.overlay.open nav a{animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+.overlay nav a:hover{color:var(--accent)}
+@keyframes rise{to{opacity:1;transform:none}}
+.overlay .orn{margin:26px 0}
+
+/* ---------- layout ---------- */
+.wrap{padding:12px;max-width:1700px;margin:0 auto}
+.grid-home{display:grid;grid-template-columns:1.9fr 1fr;gap:12px;min-height:calc(100vh - 24px)}
+.card{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--panel);border:1px solid var(--line)}
+.card img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform 1.2s cubic-bezier(.2,.7,.2,1),opacity .6s}
+.card:hover img{transform:scale(1.045)}
+.card .shade{position:absolute;inset:0;background:linear-gradient(200deg,rgba(10,9,8,.05) 30%,rgba(10,9,8,.86) 100%)}
+
+.hero-home{min-height:78vh;display:flex}
+.hero-home .inner{position:relative;z-index:2;align-self:flex-end;padding:clamp(28px,5vw,64px)}
+.hero-home h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,7.5vw,118px);line-height:.95;letter-spacing:.02em;text-transform:uppercase}
+.hero-home p{margin-top:18px;color:var(--cream-dim);letter-spacing:.28em;text-transform:uppercase;font-size:12px}
+
+.side{display:flex;flex-direction:column;gap:12px}
+.side .card{flex:1;min-height:150px;display:flex}
+.side .card .label{position:relative;z-index:2;align-self:flex-end;width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 22px}
+.side .card .label span{font-family:var(--serif);letter-spacing:.3em;text-transform:uppercase;font-size:15px}
+.arrow{width:38px;height:38px;flex:none;border:1px solid rgba(236,227,210,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;transition:.35s}
+.card:hover .arrow{background:var(--cream);color:var(--bg);border-color:var(--cream);transform:rotate(-45deg)}
+
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.strip .card{height:300px;display:flex}
+.strip .card .label{position:relative;z-index:2;align-self:flex-end;width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 22px}
+.strip .card .label span{font-family:var(--serif);letter-spacing:.3em;text-transform:uppercase;font-size:15px}
+
+/* ---------- menu pages ---------- */
+.grid-page{display:grid;grid-template-columns:1fr 1.15fr;gap:12px;align-items:start}
+.page-hero{position:sticky;top:12px;height:calc(100vh - 24px);display:flex}
+.page-hero .inner{position:relative;z-index:2;align-self:flex-end;padding:clamp(26px,4vw,54px)}
+.page-hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,5.5vw,92px);line-height:.97;letter-spacing:.03em;text-transform:uppercase}
+.page-hero .crumb{color:var(--cream-dim);letter-spacing:.3em;text-transform:uppercase;font-size:11px;margin-bottom:14px}
+
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(22px,3.4vw,56px);min-height:calc(100vh - 24px)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px}
+.chips a{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line);border-radius:9px;padding:9px 13px;color:var(--cream-dim);transition:.25s}
+.chips a:hover{border-color:var(--accent);color:var(--cream)}
+.note{color:var(--muted);text-align:center;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+
+.msec{padding-top:46px}
+.msec .orn{margin-bottom:8px}
+.subnote{text-align:center;color:var(--muted);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:26px}
+.item{padding:16px 0;border-bottom:1px solid rgba(43,39,29,.6)}
+.item:last-child{border-bottom:none}
+.item .row{display:flex;align-items:baseline;gap:12px}
+.item .name{font-family:var(--serif);font-size:17px;letter-spacing:.14em;text-transform:uppercase;flex:none;max-width:70%}
+.item .dots{flex:1;border-bottom:1px dotted rgba(141,134,114,.55);transform:translateY(-4px)}
+.item .price{font-family:var(--serif);font-size:16px;letter-spacing:.08em;color:var(--accent);flex:none;white-space:nowrap}
+.item .desc{margin-top:7px;color:var(--muted);font-size:13.5px;line-height:1.55;max-width:56ch}
+
+/* ---------- gallery ---------- */
+.gal{columns:3;column-gap:12px;padding-top:6px}
+.gal a{display:block;margin-bottom:12px;border-radius:14px;overflow:hidden;border:1px solid var(--line);position:relative}
+.gal img{width:100%;height:auto;transition:transform 1s cubic-bezier(.2,.7,.2,1),opacity .5s}
+.gal a:hover img{transform:scale(1.05)}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:120;background:rgba(6,5,4,.94);display:none;align-items:center;justify-content:center;padding:5vmin;cursor:zoom-out}
+.lb.open{display:flex}
+.lb img{max-width:100%;max-height:100%;border-radius:12px}
+
+/* ---------- footer ---------- */
+footer{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:clamp(30px,4vw,54px);display:grid;grid-template-columns:1fr auto 1fr;gap:26px;align-items:center}
+footer .fl img{height:44px;width:auto}
+footer .fl p{margin-top:12px;color:var(--muted);font-size:12px;max-width:32ch;line-height:1.6}
+footer .fc{text-align:center}
+footer .fc h4{font-family:var(--serif);letter-spacing:.3em;text-transform:uppercase;font-weight:400;font-size:14px;margin-bottom:10px}
+footer .fc p{color:var(--cream-dim);font-size:13px;letter-spacing:.08em}
+footer .fr{display:flex;gap:10px;justify-content:flex-end}
+footer .fr a{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream-dim);transition:.3s;font-size:13px}
+footer .fr a:hover{border-color:var(--accent);color:var(--cream)}
+
+.fade{animation:fade .6s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .grid-home{grid-template-columns:1fr}
+  .hero-home{min-height:62vh}
+  .strip{grid-template-columns:1fr}
+  .strip .card{height:220px}
+  .grid-page{grid-template-columns:1fr}
+  .page-hero{position:relative;top:0;height:52vh;min-height:340px}
+  .sheet{min-height:0}
+  .gal{columns:2}
+  footer{grid-template-columns:1fr;text-align:center}
+  footer .fl{display:flex;flex-direction:column;align-items:center}
+  footer .fr{justify-content:center}
+  .nav .links{display:none}
+}
+@media (max-width:620px){
+  .wrap{padding:8px}
+  .gal{columns:1}
+
+  /* nav compacto no topo */
+  .nav{top:10px;left:10px;right:auto;padding:5px 10px 5px 5px;border-radius:12px}
+  .nav .burger{width:36px;height:36px}
+  .nav .logo img{height:24px;margin:0 8px}
+
+  /* idiomas viram barra fixa embaixo (mais fácil com o polegar) */
+  .langbar{top:auto;bottom:calc(12px + env(safe-area-inset-bottom));left:50%;right:auto;transform:translateX(-50%);padding:5px}
+  .langbar button{padding:9px 11px;font-size:11px}
+  body{padding-bottom:70px}
+
+  /* heros */
+  .hero-home{min-height:66vh}
+  .hero-home h1{font-size:clamp(44px,13vw,64px)}
+  .page-hero{height:40vh;min-height:260px}
+  .page-hero h1{font-size:clamp(34px,10vw,52px)}
+
+  /* folha do menu */
+  .sheet{padding:20px 16px;border-radius:14px}
+  .chips{gap:6px}
+  .chips a{font-size:9.5px;padding:7px 9px;letter-spacing:.12em}
+  .msec{padding-top:36px}
+  .item{padding:13px 0}
+  .item .row{gap:8px}
+  .item .name{max-width:62%;font-size:14px;letter-spacing:.08em;line-height:1.45}
+  .item .price{font-size:13.5px}
+  .item .desc{font-size:12.5px}
+
+  .side .card{min-height:130px}
+  .strip .card{height:180px}
+  .side .card .label span,.strip .card .label span{font-size:13px;letter-spacing:.22em}
+  .arrow{width:32px;height:32px;font-size:13px}
+
+  footer{padding:26px 18px;gap:18px}
+  footer .fl img{height:36px}
+
+  .overlay nav a{font-size:clamp(28px,8.5vw,40px)}
+  .overlay .close{top:16px;left:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="burger" id="burger" aria-label="menu"><span></span><span></span><span></span></button>
+  <a class="logo" href="#/home"><img src="https://menu.abrasileirabraga.pt/wp-content/uploads/2022/02/ABrasileira_Logo_Brasileira_Branco-1024x422.png" alt="A Brasileira"></a>
+  <nav class="links" id="navlinks"></nav>
+</div>
+<div class="langbar" id="langbar"></div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay">
+  <button class="close" id="closeOverlay">✕</button>
+  <div class="orn"><span class="d"></span></div>
+  <nav id="overlayNav"></nav>
+  <div class="orn"><span class="d"></span></div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb"><img id="lbImg" alt=""></div>
+
+<div class="wrap"><main id="app"></main><footer id="footer"></footer></div>
+
+<script>
+/* =====================  DATA  ===================== */
+const IMG = "https://menu.abrasileirabraga.pt/wp-content/uploads/2022/02/";
+const PHOTOS = ["Chavena_cafe.jpg","HM_00404_Easy-Resize.com_.jpg","Cocktails-2.jpg","HM_00388_Easy-Resize.com_.jpg","HM_06564_Easy-Resize.com_.jpg","HM_00240_Easy-Resize.com_.jpg","HM_00264_Easy-Resize.com_.jpg","HM_06512.jpg","HM_00227_Easy-Resize.com_.jpg","HM_06546_Easy-Resize.com_.jpg","HM_00227_Easy-Resize.com_-1.jpg","HM_00278_Easy-Resize.com_.jpg","HM_00384_Easy-Resize.com_.jpg","HM_06409.jpg"];
+const LOGO = IMG + "ABrasileira_Logo_Brasileira_Branco-1024x422.png";
+
+const LANGS = ["pt","en","fr","es","it"];
+let lang = "pt";
+
+/* UI strings */
+const UI = {
+  nav:{
+    home:{pt:"Início",en:"Home",fr:"Accueil",es:"Inicio",it:"Home"},
+    cafetaria:{pt:"Cafetaria",en:"Café",fr:"Cafétéria",es:"Cafetería",it:"Caffetteria"},
+    chef:{pt:"Menu do Chef",en:"Chef's Menu",fr:"Menu du Chef",es:"Menú del Chef",it:"Menu dello Chef"},
+    vinhos:{pt:"Carta de Vinhos",en:"Wine List",fr:"Carte des Vins",es:"Carta de Vinos",it:"Carta dei Vini"},
+    bar:{pt:"Bebidas",en:"Bar & Drinks",fr:"Bar & Boissons",es:"Bar y Bebidas",it:"Bar & Drink"},
+    galeria:{pt:"Galeria",en:"Gallery",fr:"Galerie",es:"Galería",it:"Galleria"}
+  },
+  tagline:{pt:"Café histórico no coração de Braga",en:"A historic café in the heart of Braga",fr:"Un café historique au cœur de Braga",es:"Un café histórico en el corazón de Braga",it:"Un caffè storico nel cuore di Braga"},
+  menuWord:{pt:"Menu",en:"Menu",fr:"Menu",es:"Menú",it:"Menu"},
+  interior:{pt:"Interior / Esplanada",en:"Indoor / Terrace",fr:"Intérieur / Terrasse",es:"Interior / Terraza",it:"Interno / Terrazza"},
+  vat:{pt:"Os preços incluem IVA à taxa legal em vigor",en:"Prices include VAT at the legal rate in force",fr:"Les prix incluent la TVA au taux légal en vigueur",es:"Los precios incluyen IVA al tipo legal vigente",it:"I prezzi includono l'IVA all'aliquota di legge"},
+  hours:{pt:"Horário de Funcionamento",en:"Opening Hours",fr:"Horaires d'Ouverture",es:"Horario de Apertura",it:"Orari di Apertura"},
+  days:{pt:"Segunda-feira a Domingo",en:"Monday to Sunday",fr:"Lundi au Dimanche",es:"Lunes a Domingo",it:"Lunedì a Domenica"},
+  galleryLead:{pt:"Momentos, sabores e o ambiente d'A Brasileira",en:"Moments, flavours and the atmosphere of A Brasileira",fr:"Instants, saveurs et l'ambiance d'A Brasileira",es:"Momentos, sabores y el ambiente de A Brasileira",it:"Momenti, sapori e l'atmosfera di A Brasileira"}
+};
+
+/* helper: translated field */
+const T = v => typeof v === "string" ? v : (v[lang] || v.pt);
+
+/* fruit strings reused */
+const FR3 = {pt:"Morango, Manga, Maracujá",en:"Strawberry, Mango, Passion Fruit",fr:"Fraise, Mangue, Fruit de la passion",es:"Fresa, Mango, Maracuyá",it:"Fragola, Mango, Frutto della passione"};
+
+/* =====================  MENUS  ===================== */
+const PAGES = {
+
+cafetaria:{
+  title:UI.nav.cafetaria,
+  img: IMG+"Chavena_cafe.jpg",
+  dual:true,
+  sections:[
+   {id:"cafe",name:{pt:"Café",en:"Coffee",fr:"Café",es:"Café",it:"Caffè"},items:[
+    {n:"Café de Saco",p:"1,20€ / 1,50€"},
+    {n:"Brasileirinha",p:"3,90€ / 4,20€"},
+    {n:"Macchiato",p:"1,90€ / 2,20€"},
+    {n:"Cappuccino",p:"3,90€ / 4,20€"},
+    {n:"Latte Macchiato",p:"3,90€ / 4,20€"},
+    {n:{pt:"Café Americano",en:"Americano",fr:"Café Américain",es:"Café Americano",it:"Caffè Americano"},p:"2,80€ / 3,10€"},
+    {n:"Affogato",p:"3,30€ / 3,60€"},
+    {n:"Mazagran",p:"2,10€ / 2,40€"},
+    {n:"Irish Coffee",p:"6,90€ / 7,20€"},
+    {n:{pt:"Leite c/ Chocolate",en:"Chocolate Milk",fr:"Lait au Chocolat",es:"Leche con Chocolate",it:"Latte al Cioccolato"},p:"1,80€ / 2,10€"},
+    {n:{pt:"Chocolate Quente",en:"Hot Chocolate",fr:"Chocolat Chaud",es:"Chocolate Caliente",it:"Cioccolata Calda"},p:"4,80€ / 5,10€"},
+    {n:{pt:"Chás Diversos",en:"Selection of Teas",fr:"Thés Variés",es:"Tés Variados",it:"Tè Assortiti"},p:"2,30€ / 2,60€"},
+    {n:{pt:"Chás Gelados",en:"Iced Teas",fr:"Thés Glacés",es:"Tés Helados",it:"Tè Freddi"},p:"3,50€ / 3,80€"}
+   ]},
+   {id:"bebidas",name:{pt:"Bebidas",en:"Drinks",fr:"Boissons",es:"Bebidas",it:"Bevande"},items:[
+    {n:{pt:"Sumo de Laranja Natural",en:"Fresh Orange Juice",fr:"Jus d'Orange Pressé",es:"Zumo de Naranja Natural",it:"Spremuta d'Arancia"},p:"3,60€ / 3,90€"},
+    {n:{pt:"Batidos",en:"Milkshakes",fr:"Milkshakes",es:"Batidos",it:"Frappè"},p:"4,90€ / 5,20€",d:FR3},
+    {n:{pt:"Limonada",en:"Lemonade",fr:"Limonade",es:"Limonada",it:"Limonata"},p:"3,60€ / 3,90€"},
+    {n:{pt:"Limonada de Sabores",en:"Flavoured Lemonade",fr:"Limonade Aromatisée",es:"Limonada de Sabores",it:"Limonata Aromatizzata"},p:"4,50€ / 4,80€",d:FR3},
+    {n:"Smoothies",p:"4,60€ / 4,90€",d:FR3}
+   ]},
+   {id:"tostas",name:{pt:"Tostas",en:"Toasts",fr:"Toasts",es:"Tostas",it:"Toast"},items:[
+    {n:"Torrada à Brasileira",p:"2,50€ / 2,80€"},
+    {n:{pt:"Torrada com Compota",en:"Toast with Jam",fr:"Toast à la Confiture",es:"Tostada con Mermelada",it:"Toast con Marmellata"},p:"3,10€ / 3,40€"},
+    {n:{pt:"Tosta Mista",en:"Ham & Cheese Toastie",fr:"Croque Mixte",es:"Sándwich Mixto",it:"Toast Prosciutto e Formaggio"},p:"3,50€ / 3,80€"},
+    {n:{pt:"Tosta Mista com Tomate",en:"Ham & Cheese Toastie with Tomato",fr:"Croque Mixte à la Tomate",es:"Sándwich Mixto con Tomate",it:"Toast Misto con Pomodoro"},p:"3,90€ / 4,20€"}
+   ]},
+   {id:"pastelaria",name:{pt:"Pastelaria",en:"Pastry",fr:"Pâtisserie",es:"Pastelería",it:"Pasticceria"},items:[
+    {n:"Frigideira",p:"3,70€ / 4,00€"},
+    {n:"Frigideira Mista",p:"4,50€ / 4,80€"},
+    {n:{pt:"Croissant Misto",en:"Ham & Cheese Croissant",fr:"Croissant Mixte",es:"Croissant Mixto",it:"Croissant Misto"},p:"3,50€ / 3,80€"},
+    {n:{pt:"Tartes de Fruta",en:"Fruit Tarts",fr:"Tartes aux Fruits",es:"Tartas de Fruta",it:"Crostatine di Frutta"},p:"3,20€ / 3,50€"},
+    {n:{pt:"Fatia de Bolo",en:"Slice of Cake",fr:"Part de Gâteau",es:"Porción de Tarta",it:"Fetta di Torta"},p:"3,70€ / 4,00€"}
+   ]}
+  ]
+},
+
+chef:{
+  title:UI.nav.chef,
+  img: IMG+"HM_06564_Easy-Resize.com_.jpg",
+  sections:[
+   {id:"petiscos",name:{pt:"Petiscos",en:"Small Plates",fr:"Petites Assiettes",es:"Picoteo",it:"Stuzzichini"},items:[
+    {n:{pt:"Bolinhos de Bacalhau",en:"Codfish Cakes",fr:"Beignets de Morue",es:"Buñuelos de Bacalao",it:"Crocchette di Baccalà"},p:"7,50€",
+     d:{pt:"Bolinhos de bacalhau servidos com azeitonas e broa",en:"Codfish cakes served with olives and corn bread",fr:"Servis avec olives et pain de maïs",es:"Servidos con aceitunas y pan de maíz",it:"Servite con olive e pane di mais"}},
+    {n:{pt:"Croquetes",en:"Croquettes",fr:"Croquettes",es:"Croquetas",it:"Crocchette"},p:"7,50€",
+     d:{pt:"Croquetes servidos com azeitonas e broa",en:"Croquettes served with olives and corn bread",fr:"Servies avec olives et pain de maïs",es:"Servidas con aceitunas y pan de maíz",it:"Servite con olive e pane di mais"}},
+    {n:{pt:"Queijo com Azeitonas e Tostas",en:"Cheese with Olives & Toasts",fr:"Fromage, Olives et Toasts",es:"Queso con Aceitunas y Tostas",it:"Formaggio con Olive e Crostini"},p:"11,90€"},
+    {n:{pt:"Tábua de Queijos",en:"Cheese Board",fr:"Planche de Fromages",es:"Tabla de Quesos",it:"Tagliere di Formaggi"},p:"15,00€"},
+    {n:{pt:"Tábua de Enchidos",en:"Charcuterie Board",fr:"Planche de Charcuterie",es:"Tabla de Embutidos",it:"Tagliere di Salumi"},p:"17,00€"},
+    {n:{pt:"Tábua Mista",en:"Mixed Board",fr:"Planche Mixte",es:"Tabla Mixta",it:"Tagliere Misto"},p:"25,00€"}
+   ]},
+   {id:"saladas",name:{pt:"Saladas",en:"Salads",fr:"Salades",es:"Ensaladas",it:"Insalate"},items:[
+    {n:{pt:"Salada de Bacalhau",en:"Codfish Salad",fr:"Salade de Morue",es:"Ensalada de Bacalao",it:"Insalata di Baccalà"},p:"17,00€",
+     d:{pt:"Lascas de bacalhau, ovo cozido, grão, mix de alfaces e tomate cherry",en:"Codfish flakes, boiled egg, chickpeas, mixed lettuce and cherry tomatoes",fr:"Effilochée de morue, œuf dur, pois chiches, mesclun et tomates cerises",es:"Lascas de bacalao, huevo cocido, garbanzos, mezcla de lechugas y tomate cherry",it:"Scaglie di baccalà, uovo sodo, ceci, misticanza e pomodorini"}},
+    {n:"Salada à Brasileira",p:"16,00€",
+     d:{pt:"Mescla de alface, laranja, kiwi, maçã, queijo, gelado de limão e vinagre balsâmico",en:"Mixed lettuce, orange, kiwi, apple, cheese, lemon ice cream and balsamic vinegar",fr:"Mesclun, orange, kiwi, pomme, fromage, glace au citron et vinaigre balsamique",es:"Mezcla de lechugas, naranja, kiwi, manzana, queso, helado de limón y vinagre balsámico",it:"Misticanza, arancia, kiwi, mela, formaggio, gelato al limone e aceto balsamico"}},
+    {n:{pt:"Salada de Frango",en:"Chicken Salad",fr:"Salade de Poulet",es:"Ensalada de Pollo",it:"Insalata di Pollo"},p:"16,00€",
+     d:{pt:"Frango, alface romana, croutons, molho de mostarda, ovo cozido e queijo",en:"Chicken, romaine lettuce, croutons, mustard dressing, boiled egg and cheese",fr:"Poulet, laitue romaine, croûtons, sauce moutarde, œuf dur et fromage",es:"Pollo, lechuga romana, picatostes, salsa de mostaza, huevo cocido y queso",it:"Pollo, lattuga romana, crostini, salsa alla senape, uovo sodo e formaggio"}}
+   ]},
+   {id:"sanduiches",name:{pt:"Sanduíches",en:"Sandwiches",fr:"Sandwichs",es:"Sándwiches",it:"Panini"},items:[
+    {n:{pt:"Sanduíche Americana",en:"American Sandwich",fr:"Sandwich Américain",es:"Sándwich Americano",it:"Panino Americano"},p:"9,00€",
+     d:{pt:"Queijo, fiambre, ovo cozido, tomate, alface e maionese",en:"Cheese, ham, boiled egg, tomato, lettuce and mayonnaise",fr:"Fromage, jambon, œuf dur, tomate, laitue et mayonnaise",es:"Queso, jamón york, huevo cocido, tomate, lechuga y mayonesa",it:"Formaggio, prosciutto cotto, uovo sodo, pomodoro, lattuga e maionese"}},
+    {n:{pt:"Sanduíche de Atum",en:"Tuna Sandwich",fr:"Sandwich au Thon",es:"Sándwich de Atún",it:"Panino al Tonno"},p:"9,00€",
+     d:{pt:"Atum, tomate, alface, ovo e maionese",en:"Tuna, tomato, lettuce, egg and mayonnaise",fr:"Thon, tomate, laitue, œuf et mayonnaise",es:"Atún, tomate, lechuga, huevo y mayonesa",it:"Tonno, pomodoro, lattuga, uovo e maionese"}},
+    {n:{pt:"Sanduíche de Frango",en:"Chicken Sandwich",fr:"Sandwich au Poulet",es:"Sándwich de Pollo",it:"Panino al Pollo"},p:"10,00€",
+     d:{pt:"Bife de frango grelhado, tomate, alface, ovo cozido e maionese",en:"Grilled chicken steak, tomato, lettuce, boiled egg and mayonnaise",fr:"Poulet grillé, tomate, laitue, œuf dur et mayonnaise",es:"Pollo a la plancha, tomate, lechuga, huevo cocido y mayonesa",it:"Pollo alla griglia, pomodoro, lattuga, uovo sodo e maionese"}},
+    {n:{pt:"Sanduíche de Presunto",en:"Cured Ham Sandwich",fr:"Sandwich au Jambon Cru",es:"Sándwich de Jamón Curado",it:"Panino al Prosciutto Crudo"},p:"11,00€",
+     d:{pt:"Presunto, queijo brie e alface",en:"Cured ham, brie cheese and lettuce",fr:"Jambon cru, brie et laitue",es:"Jamón curado, queso brie y lechuga",it:"Prosciutto crudo, brie e lattuga"}},
+    {n:{pt:"Prego em Pão",en:"Prego — Steak Sandwich",fr:"Prego — Sandwich au Bœuf",es:"Prego — Bocadillo de Ternera",it:"Prego — Panino di Manzo"},p:"11,00€",
+     d:{pt:"Bife, fiambre, alface e batata frita",en:"Steak, ham, lettuce and fries",fr:"Bœuf, jambon, laitue et frites",es:"Filete, jamón york, lechuga y patatas fritas",it:"Bistecca, prosciutto cotto, lattuga e patatine fritte"}},
+    {n:"Prego à Brasileira",p:"13,00€",
+     d:{pt:"Bife, fiambre, queijo brie, alface e batata frita",en:"Steak, ham, brie cheese, lettuce and fries",fr:"Bœuf, jambon, brie, laitue et frites",es:"Filete, jamón york, queso brie, lechuga y patatas fritas",it:"Bistecca, prosciutto cotto, brie, lattuga e patatine fritte"}},
+    {n:{pt:"Hambúrguer",en:"Burger",fr:"Burger",es:"Hamburguesa",it:"Hamburger"},p:"13,50€",
+     d:{pt:"Hambúrguer, pão, cebola caramelizada em vinho do Porto, queijo cheddar, alface, ovo estrelado, bacon fumado, tomate e batata frita",en:"Beef patty, bun, onion caramelised in Port wine, cheddar, lettuce, fried egg, smoked bacon, tomato and fries",fr:"Steak haché, pain, oignons caramélisés au Porto, cheddar, laitue, œuf au plat, bacon fumé, tomate et frites",es:"Hamburguesa, pan, cebolla caramelizada en vino de Oporto, cheddar, lechuga, huevo frito, bacon ahumado, tomate y patatas fritas",it:"Hamburger, pane, cipolla caramellata al Porto, cheddar, lattuga, uovo fritto, bacon affumicato, pomodoro e patatine"}}
+   ]},
+   {id:"omeletes",name:{pt:"Omeletes",en:"Omelettes",fr:"Omelettes",es:"Tortillas Omelette",it:"Omelette"},items:[
+    {n:{pt:"Omelete Mista",en:"Ham & Cheese Omelette",fr:"Omelette Mixte",es:"Tortilla Mixta",it:"Omelette Mista"},p:"14,00€",
+     d:{pt:"Queijo, fiambre e salada",en:"Cheese, ham and salad",fr:"Fromage, jambon et salade",es:"Queso, jamón york y ensalada",it:"Formaggio, prosciutto cotto e insalata"}},
+    {n:{pt:"Omelete c/ Cogumelos",en:"Mushroom Omelette",fr:"Omelette aux Champignons",es:"Tortilla de Champiñones",it:"Omelette ai Funghi"},p:"16,50€",
+     d:{pt:"Queijo, bacon, cogumelos e salada",en:"Cheese, bacon, mushrooms and salad",fr:"Fromage, bacon, champignons et salade",es:"Queso, bacon, champiñones y ensalada",it:"Formaggio, bacon, funghi e insalata"}}
+   ]},
+   {id:"peixe",name:{pt:"Pratos de Peixe",en:"Fish",fr:"Poissons",es:"Pescados",it:"Pesce"},items:[
+    {n:"Bacalhau à Brasileira",p:"27,00€",
+     d:{pt:"Bacalhau, batata a murro, migas minhotas e molho choron",en:"Codfish, punched potatoes, Minho-style migas and Choron sauce",fr:"Morue, pommes de terre écrasées, migas du Minho et sauce Choron",es:"Bacalao, patatas al golpe, migas miñotas y salsa Choron",it:"Baccalà, patate schiacciate, migas del Minho e salsa Choron"}},
+    {n:{pt:"Bacalhau c/ Tapenade de Broa de Milho",en:"Codfish with Corn Bread Tapenade",fr:"Morue en Croûte de Pain de Maïs",es:"Bacalao con Tapenade de Pan de Maíz",it:"Baccalà in Crosta di Pane di Mais"},p:"27,00€",
+     d:{pt:"Bacalhau, broa, batata a murro e grelos",en:"Codfish, corn bread, punched potatoes and turnip greens",fr:"Morue, pain de maïs, pommes de terre écrasées et pousses de navet",es:"Bacalao, pan de maíz, patatas al golpe y grelos",it:"Baccalà, pane di mais, patate schiacciate e cime di rapa"}},
+    {n:"Bacalhau à Braga",p:"28,00€",
+     d:{pt:"Bacalhau, cebolada e batata frita",en:"Codfish, sautéed onions and fries",fr:"Morue, compotée d'oignons et frites",es:"Bacalao, cebolla pochada y patatas fritas",it:"Baccalà, cipolle stufate e patatine fritte"}},
+    {n:{pt:"Risoto de Camarão",en:"Prawn Risotto",fr:"Risotto aux Crevettes",es:"Risotto de Gambas",it:"Risotto ai Gamberi"},p:"22,00€",
+     d:{pt:"Arroz arbório, camarões e caldo de marisco",en:"Arborio rice, prawns and shellfish stock",fr:"Riz arborio, crevettes et fumet de crustacés",es:"Arroz arborio, gambas y caldo de marisco",it:"Riso arborio, gamberi e brodo di crostacei"}}
+   ]},
+   {id:"carne",name:{pt:"Pratos de Carne",en:"Meat",fr:"Viandes",es:"Carnes",it:"Carne"},items:[
+    {n:"Francesinha",p:"17,00€",
+     d:{pt:"Vitela, pão à Brasileira, linguiça, chouriço, ovo estrelado, queijo, fiambre e batata frita",en:"Veal, house bread, linguiça and chouriço sausages, fried egg, cheese, ham and fries",fr:"Veau, pain maison, saucisses linguiça et chouriço, œuf au plat, fromage, jambon et frites",es:"Ternera, pan de la casa, linguiça y chorizo, huevo frito, queso, jamón york y patatas fritas",it:"Vitello, pane della casa, salsicce linguiça e chouriço, uovo fritto, formaggio, prosciutto e patatine"}},
+    {n:"Bife à Brasileira",p:"27,00€",
+     d:{pt:"Bife da vazia com camarão, migas e batata a murro",en:"Sirloin steak with prawns, migas and punched potatoes",fr:"Faux-filet aux crevettes, migas et pommes de terre écrasées",es:"Entrecot con gambas, migas y patatas al golpe",it:"Controfiletto con gamberi, migas e patate schiacciate"}},
+    {n:{pt:"Bife à Pimenta",en:"Pepper Steak",fr:"Steak au Poivre",es:"Filete a la Pimienta",it:"Bistecca al Pepe"},p:"27,00€",
+     d:{pt:"Bife, batatas fritas e mix de alfaces",en:"Steak, fries and mixed lettuce",fr:"Bœuf, frites et mesclun",es:"Filete, patatas fritas y mezcla de lechugas",it:"Bistecca, patatine fritte e misticanza"}},
+    {n:{pt:"Bife com Cogumelos",en:"Steak with Mushrooms",fr:"Steak aux Champignons",es:"Filete con Champiñones",it:"Bistecca ai Funghi"},p:"27,00€",
+     d:{pt:"Bife com molho de cogumelos, batata frita e salada",en:"Steak with mushroom sauce, fries and salad",fr:"Bœuf sauce champignons, frites et salade",es:"Filete con salsa de champiñones, patatas fritas y ensalada",it:"Bistecca con salsa ai funghi, patatine e insalata"}},
+    {n:"Secretos de Bísaro",p:"20,00€",
+     d:{pt:"Com batata a murro e migas",en:"Bísaro pork secretos, with punched potatoes and migas",fr:"Secreto de porc Bísaro, pommes de terre écrasées et migas",es:"Secreto de cerdo Bísaro, con patatas al golpe y migas",it:"Secreto di maiale Bísaro, con patate schiacciate e migas"}}
+   ]},
+   {id:"massas",name:{pt:"Massas",en:"Pasta",fr:"Pâtes",es:"Pastas",it:"Pasta"},items:[
+    {n:{pt:"Linguini com Salmão",en:"Linguine with Salmon",fr:"Linguine au Saumon",es:"Linguine con Salmón",it:"Linguine al Salmone"},p:"23,00€"},
+    {n:{pt:"Linguini Nero com Camarão",en:"Black Linguine with Prawns",fr:"Linguine Nero aux Crevettes",es:"Linguine Nero con Gambas",it:"Linguine al Nero con Gamberi"},p:"23,00€"},
+    {n:{pt:"Esparguete à Bolonhesa",en:"Spaghetti Bolognese",fr:"Spaghetti à la Bolognaise",es:"Espaguetis a la Boloñesa",it:"Spaghetti alla Bolognese"},p:"19,00€"}
+   ]},
+   {id:"vegetariano",name:{pt:"Vegetariano",en:"Vegetarian",fr:"Végétarien",es:"Vegetariano",it:"Vegetariano"},items:[
+    {n:{pt:"Arroz Caldoso de Legumes e Cogumelos",en:"Brothy Rice with Vegetables & Mushrooms",fr:"Riz Crémeux aux Légumes et Champignons",es:"Arroz Caldoso de Verduras y Setas",it:"Riso Brodoso con Verdure e Funghi"},p:"19,00€"},
+    {n:"Penne al Pesto",p:"19,00€"}
+   ]},
+   {id:"sobremesas",name:{pt:"Sobremesas",en:"Desserts",fr:"Desserts",es:"Postres",it:"Dolci"},items:[
+    {n:{pt:"Pão-de-Ló com Calda de Açúcar e Molho de Queijo da Serra",en:"Sponge Cake with Sugar Syrup & Serra Cheese Sauce",fr:"Pão-de-Ló, Sirop de Sucre et Sauce au Fromage Serra",es:"Bizcocho con Almíbar y Salsa de Queso da Serra",it:"Pan di Spagna con Sciroppo e Salsa di Formaggio Serra"},p:"9,00€"},
+    {n:"Tiramisu",p:"8,00€"},
+    {n:{pt:"Brownie com Frutos Vermelhos",en:"Brownie with Red Berries",fr:"Brownie aux Fruits Rouges",es:"Brownie con Frutos Rojos",it:"Brownie ai Frutti Rossi"},p:"8,00€"},
+    {n:"Pudim Abade de Priscos",p:"9,00€",
+     d:{pt:"Em calda de vinho do Porto e mirtilos",en:"In Port wine syrup with blueberries",fr:"Au sirop de Porto et myrtilles",es:"En almíbar de vino de Oporto con arándanos",it:"In sciroppo di Porto con mirtilli"}},
+    {n:{pt:"Cheesecake de Frutos Vermelhos",en:"Red Berry Cheesecake",fr:"Cheesecake aux Fruits Rouges",es:"Cheesecake de Frutos Rojos",it:"Cheesecake ai Frutti Rossi"},p:"8,00€"},
+    {n:{pt:"Fruta Laminada",en:"Sliced Fresh Fruit",fr:"Fruits Frais Tranchés",es:"Fruta Laminada",it:"Frutta Fresca Affettata"},p:"8,00€"},
+    {n:{pt:"Fatia de Bolo de Maçã com Bola de Gelado",en:"Apple Cake with a Scoop of Ice Cream",fr:"Gâteau aux Pommes et Boule de Glace",es:"Tarta de Manzana con Bola de Helado",it:"Torta di Mele con Pallina di Gelato"},p:"8,00€"},
+    {n:"Cheesecake à Brasileira",p:"9,00€"}
+   ]}
+  ]
+},
+
+vinhos:{
+  title:UI.nav.vinhos,
+  img: IMG+"HM_00388_Easy-Resize.com_.jpg",
+  sections:[
+   {id:"verde",name:{pt:"Vinho Verde — Branco",en:"Vinho Verde — White",fr:"Vinho Verde — Blanc",es:"Vinho Verde — Blanco",it:"Vinho Verde — Bianco"},items:[
+    {n:"Terra da Nóbrega",p:"14,00€"},
+    {n:{pt:"Terra da Nóbrega (copo)",en:"Terra da Nóbrega (glass)",fr:"Terra da Nóbrega (verre)",es:"Terra da Nóbrega (copa)",it:"Terra da Nóbrega (calice)"},p:"4,50€"},
+    {n:"Soalheiro Allo",p:"18,00€"},
+    {n:"Soalheiro Alvarinho",p:"19,00€"},
+    {n:"Royal Palmeira",p:"34,00€"}
+   ]},
+   {id:"dourob",name:{pt:"Douro — Branco",en:"Douro — White",fr:"Douro — Blanc",es:"Douro — Blanco",it:"Douro — Bianco"},items:[
+    {n:"Mazouco",p:"16,00€"},{n:"Mazouco Reserva",p:"22,00€"},{n:"Papa Figos",p:"19,00€"},{n:"Vallado",p:"20,00€"},{n:"Duorum",p:"21,00€"}
+   ]},
+   {id:"dourot",name:{pt:"Douro — Tinto",en:"Douro — Red",fr:"Douro — Rouge",es:"Douro — Tinto",it:"Douro — Rosso"},items:[
+    {n:"Mazouco",p:"16,00€"},{n:"Pacheca",p:"19,00€"},{n:"Papa Figos",p:"19,00€"},{n:"Piano Reserva",p:"25,00€"},{n:"Duorum",p:"21,00€"},{n:"Diálogo",p:"22,00€"}
+   ]},
+   {id:"alentejob",name:{pt:"Alentejo — Branco",en:"Alentejo — White",fr:"Alentejo — Blanc",es:"Alentejo — Blanco",it:"Alentejo — Bianco"},items:[
+    {n:"Planura",p:"16,00€"},{n:"Herdade de S. Miguel",p:"18,00€"},{n:"Adega Maior Reserva",p:"23,00€"},{n:"Reserva do Comendador",p:"34,00€"}
+   ]},
+   {id:"alentejot",name:{pt:"Alentejo — Tinto",en:"Alentejo — Red",fr:"Alentejo — Rouge",es:"Alentejo — Tinto",it:"Alentejo — Rosso"},items:[
+    {n:"Planura",p:"16,00€"},{n:"Planura Reserva",p:"22,00€"},{n:"Adega Maior Reserva",p:"23,00€"},{n:"Herdade dos Arrochais",p:"24,00€"},{n:"Cartuxa",p:"34,00€"},{n:"Reserva do Comendador",p:"42,00€"}
+   ]},
+   {id:"rose",name:{pt:"Vinhos Rosé",en:"Rosé Wines",fr:"Vins Rosés",es:"Vinos Rosados",it:"Vini Rosé"},items:[
+    {n:"Mateus Rosé",p:"18,00€"},{n:"Soalheiro",p:"21,00€"},{n:"Tons",p:"17,00€"}
+   ]},
+   {id:"licorosos",name:{pt:"Vinhos Licorosos",en:"Fortified Wines",fr:"Vins Fortifiés",es:"Vinos Generosos",it:"Vini Liquorosi"},items:[
+    {n:"Porto Ferreira Tawny",p:"5,00€"},{n:"Porto Ferreira Branco",p:"5,00€"},{n:"Porto Cruz 10 Anos",p:"7,00€"},{n:"Porto Cruz Reserva",p:"6,00€"},
+    {n:"Porto Kopke 10 Anos Branco",p:"7,00€"},{n:"Porto Kopke 20 Anos",p:"10,00€"},{n:"Porto Sandeman 30 Anos",p:"14,00€"},{n:"Moscatel",p:"5,00€"},{n:"Ginja",p:"5,00€"}
+   ]},
+   {id:"espumantes",name:{pt:"Espumantes & Champagnes",en:"Sparkling & Champagne",fr:"Effervescents & Champagnes",es:"Espumosos y Champagne",it:"Spumanti & Champagne"},items:[
+    {n:"Murganheira Reserva",p:"20,00€"},{n:"Murganheira Super Reserva",p:"26,00€"},{n:"Soalheiro Espumante Rosé",p:"26,00€"},{n:"Brut Dargent Chardonnay",p:"35,00€"},
+    {n:"Terras do Demo",p:"20,00€"},{n:"Drappier Brut",p:"60,00€"},{n:"Moët & Chandon",p:"70,00€"},{n:"Dom Pérignon",p:"250,00€"}
+   ]}
+  ]
+},
+
+bar:{
+  title:UI.nav.bar,
+  img: IMG+"Cocktails-2.jpg",
+  sections:[
+   {id:"aguas",dual:true,name:{pt:"Água & Refrigerantes",en:"Water & Soft Drinks",fr:"Eaux & Sodas",es:"Agua y Refrescos",it:"Acqua & Bibite"},items:[
+    {n:{pt:"Água s/ Gás",en:"Still Water",fr:"Eau Plate",es:"Agua sin Gas",it:"Acqua Naturale"},p:"1,70€ / 2,20€"},
+    {n:{pt:"Água c/ Gás",en:"Sparkling Water",fr:"Eau Gazeuse",es:"Agua con Gas",it:"Acqua Frizzante"},p:"1,80€ / 2,10€"},
+    {n:{pt:"Água das Pedras Sabores",en:"Água das Pedras — Flavours",fr:"Água das Pedras — Arômes",es:"Água das Pedras — Sabores",it:"Água das Pedras — Gusti"},p:"2,20€ / 2,50€",
+     d:{pt:"Maracujá, frutos vermelhos, tangerina e limão",en:"Passion fruit, red berries, tangerine and lemon",fr:"Fruit de la passion, fruits rouges, mandarine et citron",es:"Maracuyá, frutos rojos, mandarina y limón",it:"Frutto della passione, frutti rossi, mandarino e limone"}},
+    {n:{pt:"Água Tónica",en:"Tonic Water",fr:"Eau Tonique",es:"Tónica",it:"Acqua Tonica"},p:"2,30€ / 2,60€"},
+    {n:"Ginger Ale",p:"2,30€ / 2,60€"},
+    {n:{pt:"Refrigerantes de Lata",en:"Canned Soft Drinks",fr:"Sodas en Canette",es:"Refrescos de Lata",it:"Bibite in Lattina"},p:"2,30€ / 2,60€",
+     d:{pt:"Coca-Cola, Fanta, Frisumo, Guaraná, Seven Up",en:"Coca-Cola, Fanta, Frisumo, Guaraná, Seven Up",fr:"Coca-Cola, Fanta, Frisumo, Guaraná, Seven Up",es:"Coca-Cola, Fanta, Frisumo, Guaraná, Seven Up",it:"Coca-Cola, Fanta, Frisumo, Guaraná, Seven Up"}},
+    {n:"Compal",p:"2,20€ / 2,50€",
+     d:{pt:"Pêssego, pêra, maçã, laranja, frutos vermelhos, tutti frutti",en:"Peach, pear, apple, orange, red berries, tutti frutti",fr:"Pêche, poire, pomme, orange, fruits rouges, tutti frutti",es:"Melocotón, pera, manzana, naranja, frutos rojos, tutti frutti",it:"Pesca, pera, mela, arancia, frutti rossi, tutti frutti"}}
+   ]},
+   {id:"cervejas",dual:true,name:{pt:"Cervejas",en:"Beers",fr:"Bières",es:"Cervezas",it:"Birre"},items:[
+    {n:"Príncipe 35cl",p:"3,60€ / 3,90€"},
+    {n:{pt:"Caneca 50cl",en:"Pint 50cl",fr:"Chope 50cl",es:"Jarra 50cl",it:"Boccale 50cl"},p:"4,50€ / 4,80€"},
+    {n:{pt:"Cerveja Preta (Stout)",en:"Stout",fr:"Bière Brune (Stout)",es:"Cerveza Negra (Stout)",it:"Birra Scura (Stout)"},p:"2,50€ / 2,80€"},
+    {n:{pt:"Cerveja s/ Álcool",en:"Alcohol-Free Beer",fr:"Bière sans Alcool",es:"Cerveza sin Alcohol",it:"Birra Analcolica"},p:"2,50€ / 2,80€"},
+    {n:{pt:"Cerveja Artesanal 1927",en:"Craft Beer 1927",fr:"Bière Artisanale 1927",es:"Cerveza Artesanal 1927",it:"Birra Artigianale 1927"},p:"4,50€ / 4,80€",
+     d:{pt:"IPA, Bavaria e Munich",en:"IPA, Bavaria and Munich",fr:"IPA, Bavaria et Munich",es:"IPA, Bavaria y Munich",it:"IPA, Bavaria e Munich"}},
+    {n:"Chimay Bleue 33cl",p:"6,00€ / 6,30€"},
+    {n:"Guinness 33cl",p:"6,00€ / 6,30€"},
+    {n:"Erdinger 50cl",p:"6,00€ / 6,30€"},
+    {n:"Leffe 33cl",p:"6,00€ / 6,30€"},
+    {n:"Somersby",p:"4,00€ / 4,30€"},
+    {n:"Três Montes 75cl",p:"9,90€ / 10,20€"}
+   ]},
+   {id:"sangrias",name:{pt:"Sangrias",en:"Sangria",fr:"Sangrias",es:"Sangrías",it:"Sangria"},items:[
+    {n:{pt:"Jarro de Sangria 1,5L",en:"Sangria Pitcher 1.5L",fr:"Pichet de Sangria 1,5L",es:"Jarra de Sangría 1,5L",it:"Caraffa di Sangria 1,5L"},p:"25,00€",
+     d:{pt:"Sangria de vinho branco ou vinho tinto",en:"White or red wine sangria",fr:"Sangria au vin blanc ou rouge",es:"Sangría de vino blanco o tinto",it:"Sangria di vino bianco o rosso"}},
+    {n:{pt:"Jarro de Sangria de Espumante 1,5L",en:"Sparkling Sangria Pitcher 1.5L",fr:"Pichet de Sangria Pétillante 1,5L",es:"Jarra de Sangría de Espumoso 1,5L",it:"Caraffa di Sangria allo Spumante 1,5L"},p:"28,00€",
+     d:{pt:"Frutos vermelhos ou tropical",en:"Red berries or tropical",fr:"Fruits rouges ou tropicale",es:"Frutos rojos o tropical",it:"Frutti rossi o tropicale"}},
+    {n:{pt:"Copo de Sangria",en:"Glass of Sangria",fr:"Verre de Sangria",es:"Copa de Sangría",it:"Bicchiere di Sangria"},p:"8,00€",
+     d:{pt:"Sangria de vinho branco ou vinho tinto",en:"White or red wine sangria",fr:"Sangria au vin blanc ou rouge",es:"Sangría de vino blanco o tinto",it:"Sangria di vino bianco o rosso"}},
+    {n:{pt:"Copo de Sangria de Espumante",en:"Glass of Sparkling Sangria",fr:"Verre de Sangria Pétillante",es:"Copa de Sangría de Espumoso",it:"Bicchiere di Sangria allo Spumante"},p:"9,00€",
+     d:{pt:"Frutos vermelhos ou tropical",en:"Red berries or tropical",fr:"Fruits rouges ou tropicale",es:"Frutos rojos o tropical",it:"Frutti rossi o tropicale"}}
+   ]},
+   {id:"licores",name:{pt:"Licores",en:"Liqueurs",fr:"Liqueurs",es:"Licores",it:"Liquori"},items:[
+    {n:"Licor Beirão",p:"6,50€"},{n:"Baileys",p:"7,00€"},{n:"Limoncello",p:"7,00€"},
+    {n:{pt:"Amêndoa Amarga",en:"Bitter Almond Liqueur",fr:"Liqueur d'Amande Amère",es:"Licor de Almendra Amarga",it:"Liquore di Mandorla Amara"},p:"6,50€"},
+    {n:"Tia Maria",p:"7,00€"}
+   ]},
+   {id:"gin",name:"Gin",items:[
+    {n:"Hendrick's",p:"11,00€",d:{pt:"Zeste de pepino",en:"Cucumber zest",fr:"Zeste de concombre",es:"Twist de pepino",it:"Zest di cetriolo"}},
+    {n:"Martin Miller's",p:"11,00€",d:{pt:"Zeste de laranja e pau de canela",en:"Orange zest and cinnamon stick",fr:"Zeste d'orange et bâton de cannelle",es:"Twist de naranja y rama de canela",it:"Zest d'arancia e stecca di cannella"}},
+    {n:"Bombay Sapphire",p:"10,00€",d:{pt:"Zeste de limão",en:"Lemon zest",fr:"Zeste de citron",es:"Twist de limón",it:"Zest di limone"}},
+    {n:"Bulldog",p:"10,00€",d:{pt:"Zeste de limão e laranja",en:"Lemon and orange zest",fr:"Zeste de citron et d'orange",es:"Twist de limón y naranja",it:"Zest di limone e arancia"}},
+    {n:"G'Vine Floraison",p:"11,00€",d:{pt:"Maçã verde",en:"Green apple",fr:"Pomme verte",es:"Manzana verde",it:"Mela verde"}},
+    {n:"G'Vine June",p:"12,00€",d:{pt:"Zeste de limão",en:"Lemon zest",fr:"Zeste de citron",es:"Twist de limón",it:"Zest di limone"}},
+    {n:"Ferdinand's",p:"13,00€",d:{pt:"Uva branca",en:"White grape",fr:"Raisin blanc",es:"Uva blanca",it:"Uva bianca"}},
+    {n:"Edmundo",p:"12,00€",d:{pt:"Zeste de limão",en:"Lemon zest",fr:"Zeste de citron",es:"Twist de limón",it:"Zest di limone"}},
+    {n:"Adamus",p:"13,00€",d:{pt:"Zeste de limão e cardamomo",en:"Lemon zest and cardamom",fr:"Zeste de citron et cardamome",es:"Twist de limón y cardamomo",it:"Zest di limone e cardamomo"}},
+    {n:"Monkey 47",p:"15,00€",d:{pt:"Zeste de laranja e baunilha",en:"Orange zest and vanilla",fr:"Zeste d'orange et vanille",es:"Twist de naranja y vainilla",it:"Zest d'arancia e vaniglia"}},
+    {n:"Valley",p:"10,00€",d:{pt:"Zeste de limão",en:"Lemon zest",fr:"Zeste de citron",es:"Twist de limón",it:"Zest di limone"}},
+    {n:"Vermuiz",p:"10,50€",d:{pt:"Zeste de laranja",en:"Orange zest",fr:"Zeste d'orange",es:"Twist de naranja",it:"Zest d'arancia"}},
+    {n:"Gin Mare",p:"13,00€",d:{pt:"Zeste de laranja",en:"Orange zest",fr:"Zeste d'orange",es:"Twist de naranja",it:"Zest d'arancia"}},
+    {n:"Sharish",p:"10,00€",d:{pt:"Zeste de laranja",en:"Orange zest",fr:"Zeste d'orange",es:"Twist de naranja",it:"Zest d'arancia"}}
+   ]},
+   {id:"whisky",name:"Whisky",items:[
+    {n:"Jameson",p:"8,50€"},{n:"Red Label",p:"8,50€"},{n:"Jack Daniel's",p:"10,50€"},{n:"Nikka from the Barrel",p:"12,00€"},
+    {n:"Chivas 18",p:"16,00€"},{n:"Cardhu 12",p:"12,00€"},{n:"Balvenie 12",p:"12,00€"},{n:"J&B 15",p:"11,00€"}
+   ]},
+   {id:"aguardente",name:{pt:"Aguardente",en:"Aguardente",fr:"Eau-de-Vie",es:"Aguardiente",it:"Acquavite"},items:[
+    {n:"CRF Reserva",p:"7,50€"},{n:"CRF Reserva Extra",p:"11,00€"},{n:"Mavem",p:"11,00€"}
+   ]},
+   {id:"brandy",name:"Brandy",items:[
+    {n:"Croft",p:"6,50€"},{n:"Macieira",p:"6,50€"},{n:"1920",p:"6,50€"}
+   ]},
+   {id:"cognac",name:"Cognac",items:[
+    {n:"Rémy Martin VS",p:"11,00€"},{n:"Martell XO",p:"32,00€"}
+   ]},
+   {id:"rum",name:{pt:"Rum",en:"Rum",fr:"Rhum",es:"Ron",it:"Rum"},items:[
+    {n:"Diplomático Reserva Extra",p:"12,00€"},{n:"William Hinton 3 Anos",p:"9,00€"},{n:"Zacapa 23",p:"12,00€"},
+    {n:"Abuelo 7 Anos",p:"11,00€"},{n:"Contrabando",p:"7,00€"},{n:"Zacapa XO",p:"25,00€"}
+   ]},
+   {id:"cocktails",name:"Cocktails",items:[
+    {n:"Caipirinha",p:"7,50€",d:{pt:"Açúcar amarelo, lima, cachaça e gelo picado",en:"Brown sugar, lime, cachaça and crushed ice",fr:"Sucre roux, citron vert, cachaça et glace pilée",es:"Azúcar moreno, lima, cachaza y hielo picado",it:"Zucchero di canna, lime, cachaça e ghiaccio tritato"}},
+    {n:"Mojito",p:"9,00€",d:{pt:"Açúcar amarelo, lima, hortelã, rum, água com gás e gelo picado",en:"Brown sugar, lime, mint, rum, sparkling water and crushed ice",fr:"Sucre roux, citron vert, menthe, rhum, eau gazeuse et glace pilée",es:"Azúcar moreno, lima, hierbabuena, ron, agua con gas y hielo picado",it:"Zucchero di canna, lime, menta, rum, acqua frizzante e ghiaccio tritato"}},
+    {n:"Negroni",p:"9,50€",d:{pt:"Vermute rosso, Campari e gin",en:"Vermouth rosso, Campari and gin",fr:"Vermouth rosso, Campari et gin",es:"Vermut rosso, Campari y gin",it:"Vermouth rosso, Campari e gin"}},
+    {n:"Piña Colada",p:"9,50€",d:{pt:"Rum, batida de coco, polpa de ananás, Malibu e sumo de ananás",en:"Rum, coconut cream, pineapple pulp, Malibu and pineapple juice",fr:"Rhum, crème de coco, pulpe d'ananas, Malibu et jus d'ananas",es:"Ron, crema de coco, pulpa de piña, Malibu y zumo de piña",it:"Rum, crema di cocco, polpa di ananas, Malibu e succo d'ananas"}},
+    {n:"Margarita",p:"9,50€",d:{pt:"Tequila, triple sec e sumo de limão",en:"Tequila, triple sec and lemon juice",fr:"Tequila, triple sec et jus de citron",es:"Tequila, triple sec y zumo de limón",it:"Tequila, triple sec e succo di limone"}},
+    {n:{pt:"Margarita de Morango",en:"Strawberry Margarita",fr:"Margarita à la Fraise",es:"Margarita de Fresa",it:"Margarita alla Fragola"},p:"9,50€",
+     d:{pt:"Tequila, triple sec, polpa de morango, sumo de limão, sumo de frutos vermelhos e morangos",en:"Tequila, triple sec, strawberry pulp, lemon juice, red berry juice and strawberries",fr:"Tequila, triple sec, pulpe de fraise, jus de citron, jus de fruits rouges et fraises",es:"Tequila, triple sec, pulpa de fresa, zumo de limón, zumo de frutos rojos y fresas",it:"Tequila, triple sec, polpa di fragola, succo di limone, succo di frutti rossi e fragole"}},
+    {n:"Daiquiri",p:"9,50€",d:{pt:"Rum, sumo de limão e xarope de açúcar",en:"Rum, lemon juice and sugar syrup",fr:"Rhum, jus de citron et sirop de sucre",es:"Ron, zumo de limón y jarabe de azúcar",it:"Rum, succo di limone e sciroppo di zucchero"}},
+    {n:{pt:"Daiquiri de Morango",en:"Strawberry Daiquiri",fr:"Daiquiri à la Fraise",es:"Daiquiri de Fresa",it:"Daiquiri alla Fragola"},p:"9,90€",
+     d:{pt:"Rum, sumo de limão, polpa de morango e morangos",en:"Rum, lemon juice, strawberry pulp and strawberries",fr:"Rhum, jus de citron, pulpe de fraise et fraises",es:"Ron, zumo de limón, pulpa de fresa y fresas",it:"Rum, succo di limone, polpa di fragola e fragole"}},
+    {n:"Aperol Spritz",p:"8,90€",d:{pt:"Aperol, prosecco, laranja e água com gás",en:"Aperol, prosecco, orange and sparkling water",fr:"Aperol, prosecco, orange et eau gazeuse",es:"Aperol, prosecco, naranja y agua con gas",it:"Aperol, prosecco, arancia e acqua frizzante"}},
+    {n:"Amarguinha Sour",p:"8,50€",d:{pt:"Amêndoa amarga, sumo de limão e xarope de açúcar",en:"Bitter almond liqueur, lemon juice and sugar syrup",fr:"Liqueur d'amande amère, jus de citron et sirop de sucre",es:"Licor de almendra amarga, zumo de limón y jarabe de azúcar",it:"Liquore di mandorla amara, succo di limone e sciroppo di zucchero"}},
+    {n:"Cosmopolitan",p:"9,50€",d:{pt:"Vodka, sumo de limão, Grand Marnier, licor de framboesa e xarope de açúcar",en:"Vodka, lemon juice, Grand Marnier, raspberry liqueur and sugar syrup",fr:"Vodka, jus de citron, Grand Marnier, liqueur de framboise et sirop de sucre",es:"Vodka, zumo de limón, Grand Marnier, licor de frambuesa y jarabe de azúcar",it:"Vodka, succo di limone, Grand Marnier, liquore di lampone e sciroppo di zucchero"}},
+    {n:"Manhattan",p:"9,90€",d:{pt:"Whiskey bourbon, vermute rosso, Martini extra dry e xarope de açúcar",en:"Bourbon whiskey, vermouth rosso, Martini extra dry and sugar syrup",fr:"Bourbon, vermouth rosso, Martini extra dry et sirop de sucre",es:"Bourbon, vermut rosso, Martini extra dry y jarabe de azúcar",it:"Bourbon, vermouth rosso, Martini extra dry e sciroppo di zucchero"}},
+    {n:"Moscow Mule",p:"9,50€",d:{pt:"Vodka, rum, sumo de lima e ginger beer",en:"Vodka, rum, lime juice and ginger beer",fr:"Vodka, rhum, jus de citron vert et ginger beer",es:"Vodka, ron, zumo de lima y ginger beer",it:"Vodka, rum, succo di lime e ginger beer"}},
+    {n:"Camel Caribbean Coffee",p:"9,90€",d:{pt:"Rum escuro, xarope de caramelo e café de saco",en:"Dark rum, caramel syrup and filter coffee",fr:"Rhum brun, sirop de caramel et café filtre",es:"Ron oscuro, jarabe de caramelo y café de filtro",it:"Rum scuro, sciroppo di caramello e caffè filtro"}}
+   ]},
+   {id:"mocktails",name:{pt:"Cocktails s/ Álcool",en:"Alcohol-Free Cocktails",fr:"Cocktails sans Alcool",es:"Cócteles sin Alcohol",it:"Cocktail Analcolici"},items:[
+    {n:"S. Francisco",p:"6,40€",d:{pt:"Sumo de maracujá, sumo de laranja, pêssego e polpa de morango",en:"Passion fruit juice, orange juice, peach and strawberry pulp",fr:"Jus de fruit de la passion, jus d'orange, pêche et pulpe de fraise",es:"Zumo de maracuyá, zumo de naranja, melocotón y pulpa de fresa",it:"Succo di frutto della passione, succo d'arancia, pesca e polpa di fragola"}},
+    {n:"Tropical",p:"7,40€",d:{pt:"Sumo de ananás, sumo de manga, coco e granadine",en:"Pineapple juice, mango juice, coconut and grenadine",fr:"Jus d'ananas, jus de mangue, coco et grenadine",es:"Zumo de piña, zumo de mango, coco y granadina",it:"Succo di ananas, succo di mango, cocco e granatina"}}
+   ]}
+  ]
+}
+};
+
+/* =====================  RENDER  ===================== */
+const app = document.getElementById("app");
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+
+function navHTML(){
+  const keys = ["cafetaria","chef","vinhos","bar","galeria"];
+  const cur = location.hash.replace("#/","") || "home";
+  return keys.map(k=>`<a href="#/${k}" class="${cur===k?"on":""}">${T(UI.nav[k])}</a>`).join("");
+}
+function renderChrome(){
+  document.getElementById("navlinks").innerHTML = navHTML();
+  document.getElementById("overlayNav").innerHTML =
+    ["home","cafetaria","chef","vinhos","bar","galeria"]
+    .map((k,i)=>`<a href="#/${k}" style="animation-delay:${.06*i}s">${T(UI.nav[k])}</a>`).join("");
+  document.getElementById("langbar").innerHTML =
+    LANGS.map(l=>`<button data-l="${l}" class="${l===lang?"on":""}">${l.toUpperCase()}</button>`).join("");
+  document.getElementById("footer").innerHTML = `
+    <div class="fl"><img src="${LOGO}" alt="A Brasileira"><p>${T(UI.vat)}</p></div>
+    <div class="fc"><h4>${T(UI.hours)}</h4><p>${T(UI.days)}</p><p>8:00 — 24:00</p></div>
+    <div class="fr">
+      <a href="https://www.facebook.com/CafeABrasileiraBraga" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+      <a href="https://www.instagram.com/abrasileira_braga/" target="_blank" rel="noopener" aria-label="Instagram">ig</a>
+    </div>`;
+}
+
+function homeHTML(){
+  const card = (k,img)=>`
+    <a class="card" href="#/${k}">
+      <img src="${IMG+img}" alt="${T(UI.nav[k])}" loading="lazy"><div class="shade"></div>
+      <div class="label"><span>${T(UI.nav[k])}</span><span class="arrow">→</span></div>
+    </a>`;
+  return `<div class="fade">
+    <div class="grid-home">
+      <a class="card hero-home" href="#/chef">
+        <img src="${IMG}HM_00404_Easy-Resize.com_.jpg" alt="A Brasileira" fetchpriority="high"><div class="shade"></div>
+        <div class="inner">
+          <p style="margin:0 0 16px;letter-spacing:.3em;text-transform:uppercase;font-size:11px;color:var(--cream-dim)">${T(UI.tagline)}</p>
+          <h1>A Brasileira</h1>
+        </div>
+      </a>
+      <div class="side">
+        ${card("cafetaria","Chavena_cafe.jpg")}
+        ${card("chef","HM_06564_Easy-Resize.com_.jpg")}
+        ${card("vinhos","HM_00388_Easy-Resize.com_.jpg")}
+      </div>
+    </div>
+    <div class="strip">
+      ${card("bar","Cocktails-2.jpg")}
+      ${card("galeria","HM_00240_Easy-Resize.com_.jpg")}
+      <a class="card" href="#/cafetaria" style="display:flex">
+        <img src="${IMG}HM_06512.jpg" alt="" loading="lazy"><div class="shade"></div>
+        <div class="label" style="position:relative;z-index:2;align-self:flex-end;width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 22px">
+          <span style="font-family:var(--serif);letter-spacing:.3em;text-transform:uppercase;font-size:15px">${T(UI.menuWord)}</span><span class="arrow">→</span>
+        </div>
+      </a>
+    </div>
+  </div>`;
+}
+
+function sectionHTML(sec,pageDual){
+  const dual = sec.dual || pageDual;
+  return `<section class="msec" id="${sec.id}">
+    <div class="orn"><span class="d"></span><h2>${T(sec.name)}</h2><span class="d"></span></div>
+    ${dual?`<p class="subnote">${T(UI.interior)}</p>`:`<div style="height:26px"></div>`}
+    ${sec.items.map(it=>`
+      <div class="item">
+        <div class="row"><span class="name">${T(it.n)}</span><span class="dots"></span><span class="price">${it.p}</span></div>
+        ${it.d?`<p class="desc">${T(it.d)}</p>`:""}
+      </div>`).join("")}
+  </section>`;
+}
+
+function menuPageHTML(key){
+  const pg = PAGES[key];
+  return `<div class="grid-page fade">
+    <a class="card page-hero" href="#/home">
+      <img src="${pg.img}" alt="${T(pg.title)}" fetchpriority="high"><div class="shade"></div>
+      <div class="inner"><p class="crumb">A Brasileira · Braga</p><h1>${T(pg.title)}</h1></div>
+    </a>
+    <div class="sheet">
+      <div class="chips">${pg.sections.map(s=>`<a href="#${s.id}" data-anchor="${s.id}">${T(s.name)}</a>`).join("")}</div>
+      <p class="note">${T(UI.vat)}</p>
+      ${pg.sections.map(s=>sectionHTML(s,pg.dual)).join("")}
+    </div>
+  </div>`;
+}
+
+function galleryHTML(){
+  return `<div class="fade">
+    <div class="card page-hero" style="position:relative;height:44vh;min-height:300px;display:flex">
+      <img src="${IMG}HM_00264_Easy-Resize.com_.jpg" alt="Galeria"><div class="shade"></div>
+      <div class="inner"><p class="crumb">A Brasileira · Braga</p><h1>${T(UI.nav.galeria)}</h1>
+      <p style="margin-top:12px;color:var(--cream-dim);font-size:13px;letter-spacing:.08em">${T(UI.galleryLead)}</p></div>
+    </div>
+    <div class="gal" style="margin-top:12px">
+      ${PHOTOS.map(f=>`<a href="${IMG+f}" data-lb><img src="${IMG+f}" alt="A Brasileira" loading="lazy"></a>`).join("")}
+    </div>
+  </div>`;
+}
+
+function render(){
+  const route = location.hash.replace("#/","") || "home";
+  renderChrome();
+  if(route==="home") app.innerHTML = homeHTML();
+  else if(route==="galeria") app.innerHTML = galleryHTML();
+  else if(PAGES[route]) app.innerHTML = menuPageHTML(route);
+  else { location.hash="#/home"; return; }
+  window.scrollTo({top:0});
+  document.documentElement.lang = lang;
+
+  /* smooth-scroll section chips without breaking the router */
+  app.querySelector
