@@ -646,4 +646,38 @@ function render(){
   document.documentElement.lang = lang;
 
   /* smooth-scroll section chips without breaking the router */
-  app.querySelector
+  app.querySelectorAll("[data-anchor]").forEach(a=>{
+    a.addEventListener("click",e=>{
+      e.preventDefault();
+      const el = document.getElementById(a.dataset.anchor);
+      if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+    });
+  });
+  /* lightbox */
+  app.querySelectorAll("[data-lb]").forEach(a=>{
+    a.addEventListener("click",e=>{
+      e.preventDefault();
+      document.getElementById("lbImg").src = a.href;
+      document.getElementById("lb").classList.add("open");
+    });
+  });
+}
+
+/* =====================  EVENTS  ===================== */
+window.addEventListener("hashchange",()=>{ closeOverlay(); render(); });
+document.getElementById("langbar").addEventListener("click",e=>{
+  const b = e.target.closest("button[data-l]");
+  if(b){ lang = b.dataset.l; render(); }
+});
+const overlay = document.getElementById("overlay");
+document.getElementById("burger").addEventListener("click",()=>overlay.classList.add("open"));
+function closeOverlay(){ overlay.classList.remove("open"); }
+document.getElementById("closeOverlay").addEventListener("click",closeOverlay);
+const lb = document.getElementById("lb");
+lb.addEventListener("click",()=>lb.classList.remove("open"));
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeOverlay(); lb.classList.remove("open"); } });
+
+render();
+</script>
+</body>
+</html>
